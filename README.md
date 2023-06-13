@@ -10,6 +10,9 @@ To create a new repository from this template, use the GitHub CLI:
 gh repo create myrepo --template someuser/sometemplate
 ```
 
+## Dev
+Use Live Server Plugin for vscode to view index-dev.html
+
 ## Structure of a Generative Art Project
 
 This template is organized to help set up a generative art project with efficiency and organization. Here's how it's structured:
