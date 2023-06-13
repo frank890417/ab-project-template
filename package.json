@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node utils/build.js"
+    "build": "node utils/build.js",
+    "preview": "cd batch_img/previewer;yarn run serve;",
+    "render": "cd batch_img; node queue.js 500 800 true true"
   },
   "author": "",
   "license": "ISC"

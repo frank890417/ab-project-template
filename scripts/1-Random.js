@@ -1,3 +1,31 @@
+function generateRandomTokenData() {
+  const hashLength = 64; // Length of the hash (assuming it's a hexadecimal string)
+  const maxTokenId = 999999999; // Maximum value for tokenId
+
+  // Generate a random hash
+  let hash = "0x";
+  const characters = "0123456789abcdef";
+  for (let i = 0; i < hashLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    hash += characters[randomIndex];
+  }
+
+  // Generate a random tokenId
+  const tokenId = Math.floor(Math.random() * (maxTokenId + 1)).toString();
+
+  // Return the generated token data
+  return {
+    hash,
+    tokenId
+  };
+}
+
+// If no tokenData is set, generate a random one
+if (!window?.tokenData?.hash) {
+  window.tokenData = generateRandomTokenData();
+  console.log("No assigned Hash, use random instead:", window.tokenData);
+}
+
 /*
   Helper functions
 */

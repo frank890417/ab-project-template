@@ -1,8 +1,8 @@
 let GLOBAL = {
-  size: {
-    width: 2000,
-    height: 1000,
-    ratioFixed: true
+  "size": {
+    "width": 1600,
+    "height": 1000,
+    "ratioFixed": true
   },
-  pixelDensity: 2
+  "pixelDensity": 2
 }
