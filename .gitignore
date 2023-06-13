@@ -1,0 +1,24 @@
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+img/
+video/
+
+# Optional npm cache directory
+.npm
+
+# Environment variables
+.env
+
+# Production build
+build/
+dist/
