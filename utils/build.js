@@ -1,6 +1,8 @@
 const fs = require("fs");
 const child = require("child_process");
-var dir = "./build";
+const path = require("path");
+const dir = "./build";
+const chunkSize = 5000;
 
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
@@ -54,38 +56,39 @@ child.exec(
 child.exec(
   `minify ${dir}/Feature.js > ${dir}/Feature.min.js`,
   (error, stdout, stderr) => {
+    seperateChunks()
     if (error) {
       console.error(error)
     }
   }
 );
 
+function seperateChunks() {
+  fs.readFile(`${dir}/Sketch.min.js`, 'utf8', function (err, contents) {
+    if (err) {
+      console.error('Error reading the file:', err);
+      return;
+    }
 
-// var ResultArray;
-// fs.readFile("Sketch.js", "utf8", function (err, contents) {
-//   // console.log(contents);
-//   var chunks = contents.split("//%");
+    // Split the contents into chunks of max 5000 characters
+    var numOfChunks = Math.ceil(contents.length / chunkSize);
 
-//   chunks.forEach((chunk, chunkId) => {
-//     fs.writeFileSync(`${dir}/chunk${chunkId}.js`, chunk);
-//     child.exec(
-//       `minify ${dir}/chunk${chunkId}.js > ${dir}/chunk${chunkId}.min.js`,
-//       (error, stdout, stderr) => {
-//         if (error) {}
-//       }
-//     );
-//   });
+    for (var i = 0; i < numOfChunks; i++) {
+      var start = i * chunkSize;
+      var end = start + chunkSize;
+      var chunk = contents.slice(start, end);
 
-//   let featureScript = contents
-//     .split("//#FEATURE_START")[1]
-//     .split("//#FEATURE_END")[0];
-//   fs.writeFileSync(`${dir}/feature.js`, featureScript);
-//   child.exec(
-//     `minify ${dir}/feature.js > ${dir}/feature.min.js`,
-//     (error, stdout, stderr) => {
-//       if (error) {
-//         console.error(error)
-//       }
-//     }
-//   );
-// });
+      // Write each chunk to a new file in the build directory
+      var chunkFileName = `Sketch.min.part${i + 1}.js`;
+      var chunkFilePath = path.join(dir, chunkFileName);
+
+      fs.writeFile(chunkFilePath, chunk, 'utf8', function (writeErr) {
+        if (writeErr) {
+          console.error('Error writing chunk to file:', writeErr);
+        } else {
+          console.log(`Chunk written to ${chunkFilePath}`);
+        }
+      });
+    }
+  });
+}
