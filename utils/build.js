@@ -20,23 +20,45 @@ scripts.sort((a, b) => {
   return a.localeCompare(b);
 });
 
-
-scripts.forEach((script) => {
-  scriptString += fs.readFileSync(`./scripts/${script}`, "utf8");
-});
+function concatScirpt(scripts) {
+  let scriptString = ""
+  scripts.forEach((script) => {
+    scriptString += "//% " + script + "\n";
+    scriptString += fs.readFileSync(`./scripts/${script}`, "utf8") + "\n";
+  });
+  return scriptString
+}
+scriptString = concatScirpt(scripts)
 
 //set feature scripts array to scripts array until feature scripts are found
 var featureScripts = scripts.slice(0, scripts.findIndex((script) => {
   return script.includes("Feature")
 }) + 1);
 var featureScriptString = "";
+featureScriptString = concatScirpt(featureScripts)
 
-featureScripts.forEach((script) => {
-  featureScriptString += fs.readFileSync(`./scripts/${script}`, "utf8");
-});
 
-console.log(scripts, featureScripts)
-console.log(featureScriptString)
+//write scripts to build folder
+fs.writeFileSync(`${dir}/Sketch.js`, scriptString);
+fs.writeFileSync(`${dir}/Feature.js`, featureScriptString);
+
+//minify scripts
+child.exec(
+  `minify ${dir}/Sketch.js > ${dir}/Sketch.min.js`,
+  (error, stdout, stderr) => {
+    if (error) {
+      console.error(error)
+    }
+  }
+);
+child.exec(
+  `minify ${dir}/Feature.js > ${dir}/Feature.min.js`,
+  (error, stdout, stderr) => {
+    if (error) {
+      console.error(error)
+    }
+  }
+);
 
 
 // var ResultArray;
