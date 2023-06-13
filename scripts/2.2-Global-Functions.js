@@ -1,4 +1,5 @@
 // essential global functions
+
 function fitCanvasSize() {
   //given canvas width and height and window with height, fit canvas to window
   if (GLOBAL.size.ratioFixed) {

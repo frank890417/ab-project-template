@@ -4,7 +4,7 @@ if (typeof window.features === undefined) {
 
 function renderFeatures() {
   return {
-    count: parseInt(random([5, 10, 100])),
+    count: parseInt(random([100, 200, 500])),
     color: random(["red", "green", "blue"]),
   }
 }
