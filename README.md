@@ -13,6 +13,16 @@ gh repo create myrepo --template someuser/sometemplate
 ## Dev
 Use Live Server Plugin for vscode to view index-dev.html
 
+## Render
+```
+npm run render
+```
+
+## Build and minify / seperate chunk
+```
+npm run build
+```
+
 ## Structure of a Generative Art Project
 
 This template is organized to help set up a generative art project with efficiency and organization. Here's how it's structured:
